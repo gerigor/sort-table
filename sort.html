@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .some-number {
+            text-align: right;
+        }
+    </style>
+<script type="text/javascript">
+    function sort(tableId, columnName) {
+        const table = document.getElementById(tableId);
+        const rows = table.getElementsByTagName("tr");
+        let ascending = true;
+        let unsorted = true;
+        let switchCount = 0;
+
+        while (unsorted) {
+            unsorted = false;
+
+            for (var r = 1; r < (rows.length - 1); r++) {
+                var switchRows = false;
+                const value = rows[r].getElementsByClassName(columnName)[0].innerHTML || 0;
+                const nextValue = rows[r + 1].getElementsByClassName(columnName)[0].innerHTML || 0;
+
+                if ((ascending && value < nextValue) || (!ascending && value > nextValue)) {
+                    switchRows = true;
+                    break;
+                }
+            }
+            if (switchRows) {
+                rows[r].parentNode.insertBefore(rows[r + 1], rows[r]);
+                unsorted = true;
+                switchCount++;
+            } else if (switchCount === 0 && ascending) {
+                    ascending = false;
+                    unsorted = true;
+                }
+        }
+
+        const columnHeader = document.querySelector(`#${tableId} th.${columnName} i`);
+        columnHeader.className = ascending ? "bi bi-arrow-up" : "bi bi-arrow-down";
+    }
+</script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <table id="content-table" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="id" onclick="sort('content-table', 'id')">ID <i></i></th>
+                    <th class="country" onclick="sort('content-table', 'country')">Country <i></i></th>
+                    <th class="some-number" onclick="sort('content-table', 'some-number')">Some number <i></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="id">001</td>
+                    <td class="country">Germany</td>
+                    <td class="some-number">16.405</td>
+                </tr>
+                <tr>
+                    <td class="id">002</td>
+                    <td class="country">France</td>
+                    <td class="some-number">10.625</td>
+                </tr>
+                <tr>
+                    <td class="id">003</td>
+                    <td class="country">UK</td>
+                    <td class="some-number">15.04</td>
+                </tr>
+                <tr>
+                    <td class="id">004</td>
+                    <td class="country">China</td>
+                    <td class="some-number">13.536</td>
+                </tr>
+                <tr>
+                    <td class="id">005</td>
+                    <td class="country">Canada</td>
+                    <td class="some-number">-</td>
+                </tr>
+                 <tr>
+                    <td class="id">006</td>
+                    <td class="country">Australia</td>
+                    <td class="some-number">16.554</td>
+                </tr>
+                <tr>
+                    <td class="id">007</td>
+                    <td class="country">Georgia</td>
+                    <td class="some-number">-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
